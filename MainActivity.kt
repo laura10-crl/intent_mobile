@@ -70,7 +70,6 @@ fun TelaTelefone(modifier: Modifier = Modifier) {
                     data = "tel:83999999999".toUri()
                 }
 
-                // Verifica se existe aplicativo de telefone
                 if (telefoneIntent.resolveActivity(context.packageManager) != null) {
 
                     context.startActivity(telefoneIntent)
