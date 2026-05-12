@@ -1,9 +1,8 @@
 package com.example.meumundo
 
-import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -22,7 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toUri
 import com.example.meumundo.ui.theme.MeumundoTheme
 
 class MainActivity : ComponentActivity() {
@@ -34,8 +32,12 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MeumundoTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    TelaTelefone(
+
+                Scaffold(
+                    modifier = Modifier.fillMaxSize()
+                ) { innerPadding ->
+
+                    TelaGoogle(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -44,58 +46,41 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@SuppressLint("QueryPermissionsNeeded")
 @Composable
-fun TelaTelefone(modifier: Modifier = Modifier) {
+fun TelaGoogle(modifier: Modifier = Modifier) {
 
     val context = LocalContext.current
-
     Column(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp),
+
         verticalArrangement = Arrangement.Center,
+
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
-        Text(text = "Abrir discador com Intent")
-
-        Spacer(modifier = Modifier.height(20.dp))
+        Text(text = "Abrir site com ACTION_VIEW")
+        Spacer(
+            modifier = Modifier.height(20.dp)
+        )
 
         Button(
             onClick = {
-
-                val telefoneIntent = Intent(Intent.ACTION_DIAL).apply {
-
-                    data = "tel:83999999999".toUri()
-                }
-
-                if (telefoneIntent.resolveActivity(context.packageManager) != null) {
-
-                    context.startActivity(telefoneIntent)
-
-                } else {
-
-                    Toast.makeText(
-                        context,
-                        "Nenhum aplicativo de telefone encontrado",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+                val siteIntent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://www.imdb.com/pt/chart/top/")
+                )
+                context.startActivity(siteIntent)
             }
         ) {
-
-            Text("Abrir Discador")
+            Text(text = "Abrir Site")
         }
     }
 }
-
 @Preview(showBackground = true)
 @Composable
-fun PreviewTelaTelefone() {
-
+fun PreviewTelaGoogle() {
     MeumundoTheme {
-
-        TelaTelefone()
+        TelaGoogle()
     }
 }
